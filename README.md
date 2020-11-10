@@ -11,8 +11,10 @@ example :
 CsharpCallGraphToNeo4j.exe  "C:\Program Files\dotnet\sdk\5.0.100-rc.2.20479.15" "D:\github\MSBuildLocator\MSBuildLocator.sln" "bolt://localhost:7687" neo4j pass
 ```
 
-Your project method call graph will be uploaded into Neo4j database with this simple schema , which can be later derived into more levels. Here is the schema, 
+Your project method call graph will be uploaded into Neo4j database with this simple schema , which can be later derived into more levels. Below is the schema for generated nodes.
 
+
+## Schema
 * #### Method Node 
  
   Method node contains lot information about the method 
@@ -80,6 +82,10 @@ name //"1920986537"   We have choosed hashCode as the label for method node
 ```
 
 
+
+## Further More
+
+If you want to derive more Class Dependency Graph from Call Graph or do more with the data, you see this tutorial. [code-analysis-tutorial-neo4j](https://github.com/vinitsiriya/code-analysis-tutorial-neo4j)
 
 
 
