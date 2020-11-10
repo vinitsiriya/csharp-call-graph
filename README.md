@@ -85,7 +85,7 @@ name //"1920986537"   We have choosed hashCode as the label for method node
 
 ## Further More
 
-If you want to derive more Class Dependency Graph from Call Graph or do more with the data, you see this tutorial. [code-analysis-tutorial-neo4j](https://github.com/vinitsiriya/code-analysis-tutorial-neo4j)
+If you want to derive more Class Dependency Graph from Call Graph or do more with the data, you can have a look on this tutorial. [code-analysis-tutorial-neo4j](https://github.com/vinitsiriya/code-analysis-tutorial-neo4j)
 
 
 
