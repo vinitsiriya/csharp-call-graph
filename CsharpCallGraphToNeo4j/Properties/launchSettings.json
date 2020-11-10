@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CsharpCallGraphToNeo4j": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Program Files\\dotnet\\sdk\\5.0.100-rc.2.20479.15\" \"D:\\github\\MSBuildLocator\\MSBuildLocator.sln\" \"bolt://localhost:7687\" neo4j pass"
+    }
+  }
+}

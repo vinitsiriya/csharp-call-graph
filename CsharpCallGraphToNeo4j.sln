@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsharpCallGraphToNeo4j", "CsharpCallGraphToNeo4j\CsharpCallGraphToNeo4j.csproj", "{899FEF71-FEAB-49E7-8B2D-7AF4A79DD8C9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{899FEF71-FEAB-49E7-8B2D-7AF4A79DD8C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{899FEF71-FEAB-49E7-8B2D-7AF4A79DD8C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{899FEF71-FEAB-49E7-8B2D-7AF4A79DD8C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{899FEF71-FEAB-49E7-8B2D-7AF4A79DD8C9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {635008EE-89C7-4FF3-81F7-56AF94722A13}
+	EndGlobalSection
+EndGlobal
