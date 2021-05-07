@@ -70,6 +70,9 @@ namespace CsharpCallGraphToNeo4j
             });
         }
 
+      
+        //Add symbol extension
+
         private async Task processDocument(Document document,Project containingProject)
         {
            
@@ -97,8 +100,8 @@ namespace CsharpCallGraphToNeo4j
 
 
                     var invokes = method.DescendantNodes().Where(x => x is InvocationExpressionSyntax).Select(x => (InvocationExpressionSyntax)x);
-                    QueryContext query1 = new QueryContext(workspace, containingProject, document, (IMethodSymbol)methodSymbol, method);
-                    var query1KeyValue = QueryBuilder.GetKeyValueFor(query1);
+                    QueryContext queryContext = new QueryContext(workspace, containingProject, document);
+                    var query1KeyValue = QueryBuilder.GetKeyValueForMethod(queryContext, (IMethodSymbol)methodSymbol, method);
 
 
                     foreach (var invoke in invokes)
@@ -107,14 +110,18 @@ namespace CsharpCallGraphToNeo4j
                         if (sym.Symbol != null)
                         {
 
-
+                        Location[] locations_insource = sym.Symbol.Locations.Where(x => x.IsInSource).ToArray();
+                        Location[] locations_inmetadeta = sym.Symbol.Locations.Where(x => x.IsInMetadata).ToArray();
+                        if (locations_insource.Length > 0)
+                        {
 
                             foreach (var syntaxRef in sym.Symbol.DeclaringSyntaxReferences)
                             {
                                 if (syntaxRef != null)
                                 {
                                     var syntaxnode = syntaxRef.GetSyntax();
-                                    //localfunction
+
+                                    //TODO: Add support to localfunction
                                     if (syntaxnode != null && syntaxnode is MethodDeclarationSyntax)
                                     {
 
@@ -122,8 +129,8 @@ namespace CsharpCallGraphToNeo4j
                                         var invdoc = workspace.CurrentSolution.GetDocument(syntaxRef.SyntaxTree);
                                         var invsem = await invdoc.GetSemanticModelAsync();
                                         var invsym = invsem.GetDeclaredSymbol(invMethodSyntax);
-                                        QueryContext query2 = new QueryContext(workspace, invdoc.Project, invdoc, (IMethodSymbol)invsym, invMethodSyntax);
-                                        var query2KeyValue = QueryBuilder.GetKeyValueFor(query2);
+                                       // QueryContext query2 = new QueryContext(workspace, invdoc.Project, invdoc);
+                                        var query2KeyValue = QueryBuilder.GetKeyValueForMethod(queryContext, (IMethodSymbol)invsym, invMethodSyntax);
 
 
 
@@ -154,7 +161,7 @@ namespace CsharpCallGraphToNeo4j
    
     
                                                                                           MERGE (a)-[r:METHOD_CALL]->(b)
-                                                                                             return *
+                                                                                           
     
     
     
@@ -170,8 +177,51 @@ namespace CsharpCallGraphToNeo4j
                                     else
                                         Debug.Write("call syntax not found / Calls to Local function are not yet supported ");
                                 }
+                                else
+                                    Debug.Write("Symbol not in source ?");
 
                             }
+                        }
+                        else
+                        {
+
+
+                            var query2KeyValue = QueryBuilder.GetKeyValueForMetaMethod(queryContext, sym);
+
+
+
+                            String querystr = @"
+                                                                                        MERGE (a:Method 
+
+                                                                                            {
+
+                                                                                                   " + query1KeyValue.Trim().TrimEnd(',') + @"           
+
+                                                                                            })
+
+                                                                                          
+                                                                                        MERGE
+
+                                                                                           (b:MetaMethod 
+                                                                                             {
+
+                                                                                                   " + query2KeyValue.Trim().TrimEnd(',') + @"           
+
+                                                                                            })
+    
+    
+                                                                                           
+    
+   
+    
+                                                                                          MERGE (a)-[r:META_METHOD_CALL]->(b)";
+
+                            String querystr2 = querystr.Replace("\\", "\\\\");
+                            session.Run(querystr2);
+
+                        }
+
+
                         }
 
                     }

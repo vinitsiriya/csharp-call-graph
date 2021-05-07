@@ -15,17 +15,17 @@ namespace CsharpCallGraphToNeo4j
            public Workspace workspace;
             public Project proj;
             public Document doc;
-            public IMethodSymbol methodSymbol;
-            public MethodDeclarationSyntax method;
+           // public IMethodSymbol methodSymbol;
+            //public MethodDeclarationSyntax method;
            // public Location location;
 
-            public QueryContext(Workspace workspace, Project proj, Document doc, IMethodSymbol methodSymbol, MethodDeclarationSyntax method)
+            public QueryContext(Workspace workspace, Project proj, Document doc)
             {
                 this.workspace = workspace;
                 this.proj = proj;
                 this.doc = doc;
-                this.methodSymbol = methodSymbol;
-                this.method = method;
+               // this.methodSymbol = methodSymbol;
+                //this.method = method;
               //  this.location = location;
             }
 
@@ -54,13 +54,12 @@ namespace CsharpCallGraphToNeo4j
 
         }
 
-        public static string GetKeyValueFor(QueryContext queryContext)
+        public static string GetKeyValueForMethod(QueryContext queryContext, IMethodSymbol methodSymbol, MethodDeclarationSyntax method)
         {
             Workspace Workspace = queryContext.workspace;
             Project proj = queryContext.proj;
             Document doc = queryContext.doc;
-            IMethodSymbol methodSymbol = queryContext.methodSymbol;
-            MethodDeclarationSyntax method = queryContext.method;
+       
             //Location location = queryContext.location;
 
             //var invokes = method.DescendantNodes().Where(x=>x is InvocationExpressionSyntax).ToList();
@@ -238,6 +237,37 @@ namespace CsharpCallGraphToNeo4j
 
             return querypart;
         }
+
+
+        public static String GetKeyValueForMetaMethod(QueryContext queryContext, SymbolInfo sym)
+        {
+
+           
+
+            var original_defination = sym.Symbol.OriginalDefinition.ToString();
+            var containing_assembly = sym.Symbol.ContainingAssembly.ToString();
+            var containing_module = sym.Symbol.ContainingModule.ToString();
+            var containing_namespace = sym.Symbol.ContainingNamespace.ToString();
+
+
+            String[] keys = new String[] { "original_defination", "containing_assembly",
+                                           "containing_module" , "containing_namespace" };
+            String[] values = new String[] { original_defination, containing_assembly, containing_module, containing_module };
+
+           
+            String querypart = "";
+
+            for (int i = 0; i < values.Length; i++)
+            {
+
+                querypart += keys[i] + ":'" + values[i] + "',\n";
+            }
+
+
+            return querypart;
+        }
+
+
 
 
     }
